@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block title %}Мій кабінет{% endblock %}
+
+{% block content %}
+    <h2>Мої квитки</h2>
+    
+    {% if tickets %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Фільм</th>
+                    <th>Дата сеансу</th>
+                    <th>Зал</th>
+                    <th>Ряд/Місце</th>
+                    <th>Ціна</th>
+                    <th>Дата покупки</th>
+                    <th>Дія</th> </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.title }}</td>
+                    <td>{{ ticket.start_time.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td>{{ ticket.hall_name }}</td>
+                    <td>Р: {{ ticket.row_number }} / М: {{ ticket.seat_number }}</td>
+                    <td>{{ "%.2f"|format(ticket.price) }} грн</td>
+                    <td>{{ ticket.purchase_date.strftime('%d.%m.%Y %H:%M') }}</td>
+
+                    <td>
+                        <form action="{{ url_for('cancel_ticket', ticket_id=ticket.idtickets) }}"
+                              method="POST"
+                              onsubmit="return confirm('Ви впевнені, що хочете скасувати цей квиток?');">
+                            <button type="submit" class="warning">Скасувати</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>У вас ще немає куплених квитків.</p>
+    {% endif %}
+{% endblock %}

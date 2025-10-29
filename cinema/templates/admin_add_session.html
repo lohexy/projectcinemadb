@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Додати сеанс{% endblock %}
+
+{% block content %}
+    <h2>Додати новий сеанс</h2>
+    <form action="{{ url_for('admin_add_session') }}" method="POST">
+        
+        <label>Фільм:</label>
+        <select name="film_id" required>
+            {% for film in films %}
+                <option value="{{ film.id }}">{{ film.title }}</option>
+            {% endfor %}
+        </select>
+        
+        <label>Зал:</label>
+        <select name="hall_id" required>
+            {% for hall in halls %}
+                <option value="{{ hall.idhalls }}">{{ hall.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <label>Час початку:</label>
+        <input type="datetime-local" name="start_time" required>
+        
+        <label>Ціна (грн):</label>
+        <input type="number" name="price" step="0.01" required>
+        
+        <button type="submit">Додати сеанс</button>
+    </form>
+{% endblock %}

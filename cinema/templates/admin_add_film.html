@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}Додати фільм{% endblock %}
+
+{% block content %}
+    <h2>Додати новий фільм</h2>
+    <form action="{{ url_for('admin_add_film') }}" method="POST">
+        <label>Назва:</label>
+        <input type="text" name="title" required>
+        
+        <label>Жанр:</label>
+        <input type="text" name="genre">
+        
+        <label>Тривалість (хв):</label>
+        <input type="number" name="duration" required>
+        
+        <label>Дата виходу:</label>
+        <input type="date" name="release_date">
+        
+        <label>Посилання на постер (URL):</label>
+        <input type="text" name="poster_url">
+        
+        <label>Опис:</label>
+        <textarea name="description" rows="5"></textarea>
+        
+        <button type="submit">Додати фільм</button>
+    </form>
+{% endblock %}

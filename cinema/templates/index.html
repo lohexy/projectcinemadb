@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}Розклад сеансів{% endblock %}
+
+{% block content %}
+    <h2>Майбутні сеанси</h2>
+    <div class="session-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+        
+        {% for session in sessions %}
+            <article class="session-card">
+                <img src="{{ session.poster_url }}" alt="{{ session.title }}" style="width:100%; object-fit: cover; height: 300px;">
+                <h3>{{ session.title }}</h3>
+                <p><strong>Зал:</strong> {{ session.hall_name }}</p>
+                <p><strong>Час:</strong> {{ session.start_time.strftime('%d-%m-%Y o %H:%M') }}</p>
+                <p><strong>Ціна:</strong> {{ "%.2f"|format(session.price) }} грн</p>
+                <a href="{{ url_for('session_detail', session_id=session.idsessions) }}" role="button">Обрати місця</a>
+            </article>
+        {% else %}
+            <p>На жаль, наразі немає доступних сеансів.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

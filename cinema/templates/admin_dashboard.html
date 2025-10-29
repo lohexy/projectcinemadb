@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}Панель Адміністратора{% endblock %}
+
+{% block content %}
+    <h2>Панель Адміністратора</h2>
+    <p>Вітаємо, {{ g.user.username }}. Оберіть дію:</p>
+    <ul>
+        <li><a href="{{ url_for('admin_add_film') }}">Додати новий фільм</a></li>
+        <li><a href="{{ url_for('admin_add_hall') }}">Додати новий зал (та заповнити місця)</a></li>
+        <li><a href="{{ url_for('admin_add_session') }}">Додати новий сеанс</a></li>
+    </ul>
+{% endblock %}
