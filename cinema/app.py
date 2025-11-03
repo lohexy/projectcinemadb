@@ -414,7 +414,7 @@ def admin_add_hall():
 
             new_hall_id = cursor.lastrowid
 
-            cursor.callproc('sp_FillHall', (new_hall_id, row_count, seats_per_row))
+            cursor.callproc('autofill_hall', (new_hall_id, row_count, seats_per_row))
 
             conn.commit()
             flash(f'Зал "{name}" (схема: {row_count}x{seats_per_row}) успішно створено та заповнено.', 'success')
@@ -484,3 +484,4 @@ def admin_add_session():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
