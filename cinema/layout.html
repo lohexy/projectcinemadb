@@ -1,0 +1,306 @@
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CinemaDB{% endblock %}</title>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #DB6B2C 0%, #FFFFFF 100%);
+            background-attachment: fixed;
+            color: #333;
+        }
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #DC0101;
+        }
+        a {
+            color: #DB6B2C;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            color: #b85a24;
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        header {
+            background-color: #DC0101;
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        header h1 {
+            color: white;
+            text-align: center;
+            margin: 0 0 15px 0;
+            font-weight: 700;
+        }
+        header nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        header nav a {
+            color: white;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        header nav a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            text-decoration: none;
+        }
+        header nav a strong {
+            color: #ffeb3b;
+        }
+
+        form {
+            background: #fafafa;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        input[type="date"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: #DB6B2C;
+            box-shadow: 0 0 5px rgba(219, 107, 44, 0.3);
+            outline: none;
+        }
+        textarea {
+            min-height: 120px;
+        }
+        button, a[role="button"] {
+            background-color: #DB6B2C;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button:hover, a[role="button"]:hover {
+            background-color: #b85a24;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        button.warning {
+            background-color: #DC0101;
+            border-color: #DC0101;
+        }
+        button.warning:hover {
+            background-color: #b00101;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 14px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #DC0101;
+            font-weight: 600;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #fdfdfd;
+        }
+        tbody tr:hover {
+            background-color: #fff0e6;
+        }
+
+        .session-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        article, .session-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+            overflow: hidden;
+            padding: 0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .session-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        .session-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 0;
+        }
+        .session-card h3, .session-card p, .session-card a {
+            padding: 0 1.2rem;
+        }
+        .session-card h3 {
+            color: #DC0101;
+            margin-top: 1rem;
+        }
+        .session-card a {
+            margin: 1.2rem;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            border: 1px solid;
+            color: white;
+        }
+        .alert.success { background-color: #28a745; border-color: #28a745; }
+        .alert.danger { background-color: #dc3545; border-color: #dc3545; }
+        .alert.warning { background-color: #ffc107; border-color: #ffc107; color: #333; }
+        .alert.info { background-color: #17a2b8; border-color: #17a2b8; }
+
+
+        .seat-map {
+            display: grid;
+            /* ❗️ РЯДОК 'grid-template-columns' ЗВІДСИ ВИДАЛЕНО ❗️ */
+            gap: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: #fafafa;
+            justify-content: center; /* Це правило залиште! */
+        }
+        .seat-label { grid-column: 1 / -1; font-weight: bold; margin-top: 10px; color: #555; }
+        .seat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            border: 1px solid #DB6B2C;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            color: #DC0101;
+            font-weight: 500;
+        }
+        .seat input { display: none; }
+        .seat.taken {
+            background-color: #a0a0a0;
+            border-color: #888;
+            cursor: not-allowed;
+            color: white;
+        }
+        .seat:not(.taken):hover { background-color: #fff0e6; }
+        .seat input:checked + label {
+            background-color: #DB6B2C;
+            color: white;
+        }
+        .seat label {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .film-info {
+            background: #fdfdfd;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: auto;
+        }
+        .film-info img {
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #555;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CinemaDB</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Головна</a>
+            {% if g.user %}
+                {% if g.user.role == 'admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}"><strong>Панель Адміна</strong></a>
+                {% endif %}
+                <a href="{{ url_for('account') }}">Мій кабінет ({{ g.user.username }})</a>
+                <a href="{{ url_for('logout') }}">Вийти</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Увійти</a>
+                <a href="{{ url_for('register') }}">Реєстрація</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Практична частина | 2025</p>
+    </footer>
+</body>
+</html>

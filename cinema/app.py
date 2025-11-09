@@ -410,7 +410,11 @@ def admin_add_hall():
         cursor = conn.cursor()
 
         try:
-            cursor.execute("INSERT INTO halls (name) VALUES (%s)", (name,))
+
+            cursor.execute(
+                "INSERT INTO halls (name, `row`, seats) VALUES (%s, %s, %s)",
+                (name, row_count, seats_per_row)
+            )
 
             new_hall_id = cursor.lastrowid
 
@@ -484,4 +488,3 @@ def admin_add_session():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
